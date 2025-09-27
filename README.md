@@ -3,7 +3,7 @@
 
 请注意：本框架不提供任何强一致缓存一致性，仅提供高性能短时间窗口无锁化最终一致性方案  
 
-0.零外部技术栈以来，仅依靠Redis+Java，通过Stream进行双向热点数据通信以及分布式多节点本地缓存失效化通知，hyperloglog+zset+boolmFilter进行全部功能实现  
+0.零外部技术栈以来，仅依靠Redis+Java，通过RedisStream进行双向热点数据通信以及分布式多节点本地缓存失效化通知，hyperloglog+zset+boolmFilter进行全部功能实现  
 
 1.基于分级权重布隆过滤器的非热点数据过滤与累积性“机器学习”准确率提升优化，hyperloglog+zset的热点数据发现  
 
@@ -12,5 +12,3 @@
 3.自动隐式redis本地节点顺序redis任务pipeline批处理提交  
 
 4.易于使用：开发者仅需要提供（key，Supplier<R>，Strategy）即可完成所有使用，其中Strategy通过配置可选取多种策略以及数值调整（本地缓存大小，权重设置，批处理间隔，大小等等）  
-
-5.可视化监控面板以及热点动作统计，可视化无依赖在线redis配置  
