@@ -41,14 +41,14 @@ public @interface RateLimit {
 
     /**
      * 时间窗口
-     * 支持格式：3s 13min 200ms 4h 7day 1month 2year
+     * 支持格式：3s 13min 200ms 4h 7day 1month
      * @return 时间窗口
      */
     String timeWindow() default "1s";
 
     /**
      * 获取令牌的等待时间
-     * 支持格式：3s 13min 200ms 4h 7day 1month 2year -1
+     * 支持格式：3s 13min 200ms 4h 7day 1month -1
      * -1 表示不等待，直接拒绝
      * @return 等待时间
      */

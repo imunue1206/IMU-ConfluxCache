@@ -42,7 +42,7 @@ public @interface DistributedLock {
     /**
      * 获取锁的等待时间
      * 支持格式：3s 13min 200ms 4h 7day   -1
-     * -1表示一直等待
+     * -1表示不等待，立即返回
      * @return 等待时间
      */
     String waitTime() default "5s";

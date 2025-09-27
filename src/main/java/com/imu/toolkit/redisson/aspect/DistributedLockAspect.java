@@ -59,9 +59,8 @@ public class DistributedLockAspect {
         try {
             // 尝试获取锁
             if (waitTime == -1) {
-                // 一直等待直到获取锁
-                lock.lock(expireTime != -1 ? expireTime : Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-                locked = true;
+                // 不等待，立即尝试获取锁
+                locked = lock.tryLock(0, expireTime != -1 ? expireTime : Long.MAX_VALUE, TimeUnit.MILLISECONDS);
             } else {
                 // 等待指定时间
                 locked = lock.tryLock(waitTime, expireTime != -1 ? expireTime : Long.MAX_VALUE, TimeUnit.MILLISECONDS);

@@ -34,7 +34,7 @@ public @interface IntervalLock {
 
     /**
      * 过期时间，在这段时间内禁止重复提交
-     * 支持格式：3s 13min 200ms 4h 7day 1month 2year -1
+     * 支持格式：3s 13min 200ms 4h 7day 1month -1
      * @return 过期时间
      */
     String expire() default "1s";
@@ -43,7 +43,7 @@ public @interface IntervalLock {
      * 重复提交时的错误消息
      * @return 错误消息
      */
-    String errorMsg() default "请勿重复提交，请稍后重试";
+    String errorMsg() default "请勿重复操作，请稍后重试";
 
     /**
      * 是否包含请求参数进行签名
