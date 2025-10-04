@@ -115,13 +115,7 @@ public class AddCacheAspect {
         long jitter = RANDOM.nextLong(rangeMs) + 1; // 确保至少1毫秒的偏移
         
         // 随机增加或减少，50%概率
-        if (RANDOM.nextBoolean()) {
-            expireMs += jitter;
-        } else {
-            expireMs -= jitter;
-            // 确保不会小于0
-            expireMs = Math.max(100, expireMs);
-        }
+        expireMs += jitter;
         
         return expireMs + "ms";
     }
