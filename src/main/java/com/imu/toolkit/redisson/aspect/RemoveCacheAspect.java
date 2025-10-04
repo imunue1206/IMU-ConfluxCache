@@ -2,7 +2,7 @@ package com.imu.toolkit.redisson.aspect;
 
 import com.imu.toolkit.redisson.annotation.RemoveCache;
 import com.imu.toolkit.redisson.constant.RedissonToolkitConstant;
-import com.imu.toolkit.redisson.utils.AspectUtils;
+import com.imu.toolkit.redisson.utils.AspectUtil;
 import com.imu.toolkit.redisson.utils.RCache;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -72,7 +72,7 @@ public class RemoveCacheAspect {
             String actualCachePrefix = prefix != null && !prefix.isEmpty() ? prefix : RedissonToolkitConstant.DEFAULT_CACHE_PREFIX;
             
             // 使用工具类解析缓存键
-            String cacheKey = AspectUtils.parseKeyOrUsePath(joinPoint, method, key, actualCachePrefix);
+            String cacheKey = AspectUtil.parseKeyOrUsePath(joinPoint, method, key, actualCachePrefix);
             
             // 删除缓存
             rCache.delete(cacheKey);

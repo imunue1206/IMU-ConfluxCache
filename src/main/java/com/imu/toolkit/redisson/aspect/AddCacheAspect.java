@@ -2,9 +2,9 @@ package com.imu.toolkit.redisson.aspect;
 
 import com.imu.toolkit.redisson.annotation.AddCache;
 import com.imu.toolkit.redisson.constant.RedissonToolkitConstant;
-import com.imu.toolkit.redisson.utils.AspectUtils;
+import com.imu.toolkit.redisson.utils.AspectUtil;
 import com.imu.toolkit.redisson.utils.RCache;
-import com.imu.toolkit.redisson.utils.TimeUtils;
+import com.imu.toolkit.redisson.utils.TimeUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -43,7 +43,7 @@ public class AddCacheAspect {
         AddCache annotation = method.getAnnotation(AddCache.class);
 
         // 生成缓存键
-        String cacheKey = AspectUtils.parseKeyOrUsePath(joinPoint, method, annotation.key(), annotation.prefix());
+        String cacheKey = AspectUtil.parseKeyOrUsePath(joinPoint, method, annotation.key(), annotation.prefix());
 
         // 尝试从缓存获取
         Object cacheValue = rCache.get(cacheKey);
@@ -57,8 +57,8 @@ public class AddCacheAspect {
         boolean locked = false;
         try {
             // 解析锁参数
-            long maxWaitMs = TimeUtils.parseTimeToMillis(annotation.loadMutexMaxWait());
-            long maxLeaseMs = TimeUtils.parseTimeToMillis(annotation.loadMutexLockLeaseTime());
+            long maxWaitMs = TimeUtil.parseTimeToMillis(annotation.loadMutexMaxWait());
+            long maxLeaseMs = TimeUtil.parseTimeToMillis(annotation.loadMutexLockLeaseTime());
 
             // 尝试获取锁
             locked = mutexLock.tryLock(maxWaitMs, Math.max(maxLeaseMs, maxWaitMs), TimeUnit.MILLISECONDS);
@@ -101,12 +101,12 @@ public class AddCacheAspect {
      * @return 带随机抖动的过期时间字符串
      */
     private String addRandomJitter(String expireTime, String range) {
-        long rangeMs = TimeUtils.parseTimeToMillis(range);
+        long rangeMs = TimeUtil.parseTimeToMillis(range);
         if (rangeMs <= 0) {
             return expireTime;
         }
         
-        long expireMs = TimeUtils.parseTimeToMillis(expireTime);
+        long expireMs = TimeUtil.parseTimeToMillis(expireTime);
         if (expireMs <= 0) {
             return expireTime;
         }

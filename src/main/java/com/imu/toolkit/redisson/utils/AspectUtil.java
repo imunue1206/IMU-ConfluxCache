@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
  * 切面工具类
  * 提供切面相关的通用方法
  */
-public class AspectUtils {
+public class AspectUtil {
 
     private static final ExpressionParser PARSER = new SpelExpressionParser();
     private static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
@@ -65,10 +65,10 @@ public class AspectUtils {
     }
 
     public static String parseKeyOrUsePath(ProceedingJoinPoint joinPoint, Method method, String key, String prefix) {
-        String currentKey = AspectUtils.resolveSpelExpression(joinPoint, key);
+        String currentKey = AspectUtil.resolveSpelExpression(joinPoint, key);
 
         if (currentKey == null || key.trim().isEmpty()) {
-            currentKey = AspectUtils.getMethodFullPath(method);
+            currentKey = AspectUtil.getMethodFullPath(method);
         }
         return prefix + currentKey;
     }

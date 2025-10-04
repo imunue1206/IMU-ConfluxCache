@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  * 时间解析工具类，支持多种时间单位格式解析
  * 支持格式：3s 13min 200ms 4h -1，兼容大小写
  */
-public class TimeUtils {
+public class TimeUtil {
 
     // 使用CASE_INSENSITIVE标志使正则表达式大小写不敏感
     private static final Pattern TIME_PATTERN = Pattern.compile("^(-?\\d+)(ms|s|min|h)?$", Pattern.CASE_INSENSITIVE);

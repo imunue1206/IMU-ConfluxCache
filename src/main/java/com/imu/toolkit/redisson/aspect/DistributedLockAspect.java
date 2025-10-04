@@ -2,8 +2,8 @@ package com.imu.toolkit.redisson.aspect;
 
 import com.imu.toolkit.redisson.annotation.DistributedLock;
 import com.imu.toolkit.redisson.constant.RedissonToolkitConstant;
-import com.imu.toolkit.redisson.utils.AspectUtils;
-import com.imu.toolkit.redisson.utils.TimeUtils;
+import com.imu.toolkit.redisson.utils.AspectUtil;
+import com.imu.toolkit.redisson.utils.TimeUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -38,13 +38,13 @@ public class DistributedLockAspect {
         DistributedLock annotation = method.getAnnotation(DistributedLock.class);
 
         // 解析锁名称（支持SpEL表达式）
-        String key = AspectUtils.resolveSpelExpression(joinPoint, annotation.key());
+        String key = AspectUtil.resolveSpelExpression(joinPoint, annotation.key());
         
         // 如果未指定prefix或使用默认值，则添加方法路径
         String prefix = annotation.prefix();
         if (prefix.equals(RedissonToolkitConstant.DEFAULT_LOCK_PREFIX)) {
             // 使用工具类构建带方法路径的前缀
-            prefix = AspectUtils.buildPrefixWithMethodPath(prefix, method);
+            prefix = AspectUtil.buildPrefixWithMethodPath(prefix, method);
         }
         String fullLockName = prefix + key;
 
@@ -52,8 +52,8 @@ public class DistributedLockAspect {
         RLock lock = redissonClient.getLock(fullLockName);
 
         // 解析过期时间和等待时间
-        long expireTime = TimeUtils.parseTimeToMillis(annotation.expire());
-        long waitTime = TimeUtils.parseTimeToMillis(annotation.waitTime());
+        long expireTime = TimeUtil.parseTimeToMillis(annotation.expire());
+        long waitTime = TimeUtil.parseTimeToMillis(annotation.waitTime());
 
         boolean locked = false;
         try {
@@ -86,7 +86,7 @@ public class DistributedLockAspect {
      * 使用AspectUtils中的SpEL解析方法
      */
     private String resolveLockName(ProceedingJoinPoint joinPoint, DistributedLock annotation) {
-        return AspectUtils.resolveSpelExpression(joinPoint, annotation.key());
+        return AspectUtil.resolveSpelExpression(joinPoint, annotation.key());
     }
 
 }

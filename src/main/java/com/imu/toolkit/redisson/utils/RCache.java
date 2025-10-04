@@ -9,7 +9,6 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -79,7 +78,7 @@ public class RCache {
      */
     public <V> void set(String key, V value, String expireTime) {
         RBucket<V> bucket = redissonClient.getBucket(key);
-        long expireMs = TimeUtils.parseTimeToMillis(expireTime);
+        long expireMs = TimeUtil.parseTimeToMillis(expireTime);
         if (expireMs == -1) {
             bucket.set(value);
         } else {
@@ -139,7 +138,7 @@ public class RCache {
      * @return 是否设置成功
      */
     public boolean expire(String key, String expireTime) {
-        long expireMs = TimeUtils.parseTimeToMillis(expireTime);
+        long expireMs = TimeUtil.parseTimeToMillis(expireTime);
         if (expireMs == -1) {
             // 永不过期：移除过期时间
             return redissonClient.getBucket(key).clearExpire();
