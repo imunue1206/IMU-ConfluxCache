@@ -1,7 +1,7 @@
 package com.imu.toolkit.redisson.aspect;
 
 import com.imu.toolkit.redisson.annotation.IntervalLock;
-import com.imu.toolkit.redisson.constant.RedissonConstant;
+import com.imu.toolkit.redisson.constant.RedissonToolkitConstant;
 import com.imu.toolkit.redisson.utils.AspectUtils;
 import com.imu.toolkit.redisson.utils.TimeUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,7 +13,6 @@ import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.Objects;
 
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +55,7 @@ public class IntervalLockAspect {
 
         // 如果未指定prefix或使用默认值，则添加方法路径
         String prefix = annotation.prefix();
-        if (prefix.equals(RedissonConstant.DEFAULT_INTERVAL_LOCK_PREFIX)) {
+        if (prefix.equals(RedissonToolkitConstant.DEFAULT_INTERVAL_LOCK_PREFIX)) {
             // 使用工具类构建带方法路径的前缀
             prefix = AspectUtils.buildPrefixWithMethodPath(prefix, method);
         }

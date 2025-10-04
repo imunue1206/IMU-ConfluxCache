@@ -63,4 +63,13 @@ public class AspectUtils {
         // 解析SpEL表达式
         return PARSER.parseExpression(expressionString).getValue(context, String.class);
     }
+
+    public static String parseKeyOrUsePath(ProceedingJoinPoint joinPoint, Method method, String key, String prefix) {
+        String currentKey = AspectUtils.resolveSpelExpression(joinPoint, key);
+
+        if (currentKey == null || key.trim().isEmpty()) {
+            currentKey = AspectUtils.getMethodFullPath(method);
+        }
+        return prefix + currentKey;
+    }
 }

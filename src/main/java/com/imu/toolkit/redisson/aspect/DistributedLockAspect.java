@@ -1,7 +1,7 @@
 package com.imu.toolkit.redisson.aspect;
 
 import com.imu.toolkit.redisson.annotation.DistributedLock;
-import com.imu.toolkit.redisson.constant.RedissonConstant;
+import com.imu.toolkit.redisson.constant.RedissonToolkitConstant;
 import com.imu.toolkit.redisson.utils.AspectUtils;
 import com.imu.toolkit.redisson.utils.TimeUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -42,7 +42,7 @@ public class DistributedLockAspect {
         
         // 如果未指定prefix或使用默认值，则添加方法路径
         String prefix = annotation.prefix();
-        if (prefix.equals(RedissonConstant.DEFAULT_LOCK_PREFIX)) {
+        if (prefix.equals(RedissonToolkitConstant.DEFAULT_LOCK_PREFIX)) {
             // 使用工具类构建带方法路径的前缀
             prefix = AspectUtils.buildPrefixWithMethodPath(prefix, method);
         }

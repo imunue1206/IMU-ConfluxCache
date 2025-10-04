@@ -1,6 +1,6 @@
 package com.imu.toolkit.redisson.annotation;
 
-import com.imu.toolkit.redisson.constant.RedissonConstant;
+import com.imu.toolkit.redisson.constant.RedissonToolkitConstant;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,7 +18,7 @@ public @interface IntervalLock {
      * 缓存的前缀
      * @return 前缀
      */
-    String prefix() default RedissonConstant.DEFAULT_INTERVAL_LOCK_PREFIX;
+    String prefix() default RedissonToolkitConstant.DEFAULT_INTERVAL_LOCK_PREFIX;
 
     /**
      * 缓存的key，可以使用Spring EL表达式

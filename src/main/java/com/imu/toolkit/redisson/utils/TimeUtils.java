@@ -1,6 +1,8 @@
 package com.imu.toolkit.redisson.utils;
 
 import java.time.Duration;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +12,7 @@ import java.util.regex.Pattern;
  */
 public class TimeUtils {
 
-    private static final Pattern TIME_PATTERN = Pattern.compile("^(-?\\d+)(s|min|ms|h|day|month|year)?$");
+    private static final Pattern TIME_PATTERN = Pattern.compile("^(-?\\d+)(ms|s|min|h)?$");
 
     /**
      * 解析时间字符串为毫秒
@@ -29,7 +31,7 @@ public class TimeUtils {
 
         Matcher matcher = TIME_PATTERN.matcher(timeStr.trim());
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid time format: " + timeStr + ", supported formats: 3s 13min 200ms 4h 7day 1month 2year -1");
+            throw new IllegalArgumentException("Invalid time format: " + timeStr + ", supported formats like: 3s 13min 200ms 4h -1");
         }
 
         long value = Long.parseLong(matcher.group(1));
@@ -49,23 +51,8 @@ public class TimeUtils {
                 return value * 60 * 1000;
             case "h":
                 return value * 60 * 60 * 1000;
-            case "day":
-                return value * 24 * 60 * 60 * 1000;
             default:
                 throw new IllegalArgumentException("Unsupported time unit: " + unit);
         }
-    }
-
-    /**
-     * 解析时间字符串为Duration对象
-     * @param timeStr 时间字符串
-     * @return Duration对象，null表示永不过期
-     */
-    public static Duration parseTimeToDuration(String timeStr) {
-        long millis = parseTimeToMillis(timeStr);
-        if (millis == -1) {
-            return null;
-        }
-        return Duration.ofMillis(millis);
     }
 }

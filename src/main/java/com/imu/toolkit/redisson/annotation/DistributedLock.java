@@ -1,6 +1,6 @@
 package com.imu.toolkit.redisson.annotation;
 
-import com.imu.toolkit.redisson.constant.RedissonConstant;
+import com.imu.toolkit.redisson.constant.RedissonToolkitConstant;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,7 +18,7 @@ public @interface DistributedLock {
      * 锁的前缀
      * @return 锁前缀
      */
-    String prefix() default RedissonConstant.DEFAULT_LOCK_PREFIX;
+    String prefix() default RedissonToolkitConstant.DEFAULT_LOCK_PREFIX;
 
     /**
      * 锁的名称，可以使用Spring EL表达式
