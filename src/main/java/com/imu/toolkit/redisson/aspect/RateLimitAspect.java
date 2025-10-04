@@ -1,9 +1,9 @@
 package com.imu.toolkit.redisson.aspect;
 
 import com.imu.toolkit.redisson.annotation.RateLimit;
-import com.imu.toolkit.redisson.constant.RedissonConstant;
-import com.imu.toolkit.redisson.utils.AspectUtils;
-import com.imu.toolkit.redisson.utils.TimeUtils;
+import com.imu.toolkit.redisson.constant.RedissonToolkitConstant;
+import com.imu.toolkit.redisson.utils.AspectUtil;
+import com.imu.toolkit.redisson.utils.TimeUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -42,22 +42,22 @@ public class RateLimitAspect {
         RateLimit annotation = method.getAnnotation(RateLimit.class);
 
         // 解析key
-        String key = AspectUtils.resolveSpelExpression(joinPoint, annotation.key());
+        String key = AspectUtil.resolveSpelExpression(joinPoint, annotation.key());
         
         // 如果未指定prefix或使用默认值，则添加方法路径
         String prefix = annotation.prefix();
-        if (prefix.equals(RedissonConstant.DEFAULT_RATE_LIMIT_PREFIX)) {
+        if (prefix.equals(RedissonToolkitConstant.DEFAULT_RATE_LIMIT_PREFIX)) {
             // 使用工具类构建带方法路径的前缀
-            prefix = AspectUtils.buildPrefixWithMethodPath(prefix, method);
+            prefix = AspectUtil.buildPrefixWithMethodPath(prefix, method);
         }
         String fullKey = prefix + key;
 
         // 获取限流配置
         int limit = annotation.limit();
         // 解析时间窗口
-        long timeWindowMillis = TimeUtils.parseTimeToMillis(annotation.timeWindow());
+        long timeWindowMillis = TimeUtil.parseTimeToMillis(annotation.timeWindow());
         // 解析等待时间
-        long waitTimeMillis = TimeUtils.parseTimeToMillis(annotation.waitTime());
+        long waitTimeMillis = TimeUtil.parseTimeToMillis(annotation.waitTime());
 
         // 获取Redisson限流器
         RRateLimiter rateLimiter = redissonClient.getRateLimiter(fullKey);

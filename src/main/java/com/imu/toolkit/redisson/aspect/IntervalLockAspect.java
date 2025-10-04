@@ -1,9 +1,9 @@
 package com.imu.toolkit.redisson.aspect;
 
 import com.imu.toolkit.redisson.annotation.IntervalLock;
-import com.imu.toolkit.redisson.constant.RedissonConstant;
-import com.imu.toolkit.redisson.utils.AspectUtils;
-import com.imu.toolkit.redisson.utils.TimeUtils;
+import com.imu.toolkit.redisson.constant.RedissonToolkitConstant;
+import com.imu.toolkit.redisson.utils.AspectUtil;
+import com.imu.toolkit.redisson.utils.TimeUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,7 +13,6 @@ import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.Objects;
 
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
@@ -46,7 +45,7 @@ public class IntervalLockAspect {
         IntervalLock annotation = method.getAnnotation(IntervalLock.class);
 
         // 解析key
-        String key = AspectUtils.resolveSpelExpression(joinPoint, annotation.key());
+        String key = AspectUtil.resolveSpelExpression(joinPoint, annotation.key());
         
         // 如果需要包含参数签名
         if (annotation.includeParams()) {
@@ -56,14 +55,14 @@ public class IntervalLockAspect {
 
         // 如果未指定prefix或使用默认值，则添加方法路径
         String prefix = annotation.prefix();
-        if (prefix.equals(RedissonConstant.DEFAULT_INTERVAL_LOCK_PREFIX)) {
+        if (prefix.equals(RedissonToolkitConstant.DEFAULT_INTERVAL_LOCK_PREFIX)) {
             // 使用工具类构建带方法路径的前缀
-            prefix = AspectUtils.buildPrefixWithMethodPath(prefix, method);
+            prefix = AspectUtil.buildPrefixWithMethodPath(prefix, method);
         }
         String fullKey = prefix + key;
 
         // 解析过期时间
-        long expireTime = TimeUtils.parseTimeToMillis(annotation.expire());
+        long expireTime = TimeUtil.parseTimeToMillis(annotation.expire());
 
         // 检查是否已经提交过
         RBucket<String> bucket = redissonClient.getBucket(fullKey);
@@ -87,7 +86,7 @@ public class IntervalLockAspect {
      * 使用AspectUtils中的SpEL解析方法
      */
     private String resolveKey(ProceedingJoinPoint joinPoint, IntervalLock annotation) {
-        return AspectUtils.resolveSpelExpression(joinPoint, annotation.key());
+        return AspectUtil.resolveSpelExpression(joinPoint, annotation.key());
     }
 
     /**
