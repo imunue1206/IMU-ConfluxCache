@@ -36,16 +36,6 @@ public class TimeUtil {
         if ("-1".equals(timeStr)) {
             return -1;
         }
-        
-        // 快速路径：纯数字（默认毫秒）
-        if (timeStr.matches("^-?\\d+$")) {
-            try {
-                long result = Long.parseLong(timeStr);
-                return result;
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Invalid number format: " + timeStr);
-            }
-        }
 
         // 使用正则表达式解析
         Matcher matcher = TIME_PATTERN.matcher(timeStr);
